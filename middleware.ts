@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   // Allow access to auth pages without authentication
@@ -19,12 +20,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // Check for authentication token in cookies
-  const authToken = request.cookies.get('auth-token');
+  // Check for NextAuth session token
+  const token = await getToken({ 
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET 
+  });
   
-  // If no auth token and trying to access main app, redirect to signin
-  if (!authToken) {
-    return NextResponse.redirect(new URL('/auth/simple-signin', request.url));
+  // If no token and trying to access main app, redirect to signin
+  if (!token) {
+    return NextResponse.redirect(new URL('/auth/signin', request.url));
   }
   
   return NextResponse.next();

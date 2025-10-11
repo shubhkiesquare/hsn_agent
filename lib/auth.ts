@@ -5,23 +5,6 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-// Ensure environment variables are available with fallbacks
-const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "776ac261bf6a78f244791e5ce72a1c9ff07a10aecd9665aab7b4cf7690a70144";
-const NEXTAUTH_URL = process.env.NEXTAUTH_URL || "http://localhost:3000";
-
-// Debug environment variables
-console.log("NEXTAUTH_SECRET:", NEXTAUTH_SECRET);
-console.log("NEXTAUTH_URL:", NEXTAUTH_URL);
-
-// Validate secret
-if (!NEXTAUTH_SECRET) {
-  throw new Error("NEXTAUTH_SECRET is required");
-}
-
-// Set environment variables explicitly for NextAuth
-process.env.NEXTAUTH_SECRET = NEXTAUTH_SECRET;
-process.env.NEXTAUTH_URL = NEXTAUTH_URL;
-
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -65,6 +48,7 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -74,7 +58,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && session.user) {
         session.user.id = token.sub!;
         session.user.role = token.role as string;
       }
@@ -84,7 +68,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
-  secret: NEXTAUTH_SECRET,
-  debug: false,
-  url: NEXTAUTH_URL,
+  secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 };
