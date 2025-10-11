@@ -1,10 +1,11 @@
 import Script from "next/script";
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/lib/user-context";
 
 export const metadata: Metadata = {
-  title: "AgentKit demo",
-  description: "Demo of ChatKit with hosted workflow",
+  title: "EZgenie - India Customs CTH Assistant",
+  description: "EZgenie (इज़जीनी) - Indian Customs Import and Export Goods Classification Assistant",
 };
 
 export default function RootLayout({
@@ -20,7 +21,11 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }

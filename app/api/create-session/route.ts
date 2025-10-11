@@ -1,6 +1,6 @@
 import { WORKFLOW_ID } from "@/lib/config";
-
-export const runtime = "edge";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 interface CreateSessionRequestBody {
   workflow?: { id?: string | null } | null;
@@ -37,9 +37,18 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const parsedBody = await safeParseJson<CreateSessionRequestBody>(request);
-    const { userId, sessionCookie: resolvedSessionCookie } =
-      await resolveUserId(request);
-    sessionCookie = resolvedSessionCookie;
+    
+    // Try to get authenticated user first, fallback to anonymous
+    const session = await getServerSession(authOptions);
+    let userId: string;
+    
+    if (session?.user?.id) {
+      userId = session.user.id;
+    } else {
+      const resolved = await resolveUserId(request);
+      userId = resolved.userId;
+      sessionCookie = resolved.sessionCookie;
+    }
     const resolvedWorkflowId =
       parsedBody?.workflow?.id ?? parsedBody?.workflowId ?? WORKFLOW_ID;
 

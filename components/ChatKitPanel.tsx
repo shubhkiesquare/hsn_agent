@@ -83,6 +83,7 @@ export function ChatKitPanel({
       if (!isMountedRef.current) {
         return;
       }
+      console.log("ChatKit script loaded successfully");
       setScriptStatus("ready");
       setErrorState({ script: null });
     };
@@ -107,16 +108,27 @@ export function ChatKitPanel({
     if (window.customElements?.get("openai-chatkit")) {
       handleLoaded();
     } else if (scriptStatus === "pending") {
-      timeoutId = window.setTimeout(() => {
-        if (!window.customElements?.get("openai-chatkit")) {
-          handleError(
-            new CustomEvent("chatkit-script-error", {
-              detail:
-                "ChatKit web component is unavailable. Verify that the script URL is reachable.",
-            })
-          );
+      // Check if script is already loaded
+      const checkScript = () => {
+        if (window.customElements?.get("openai-chatkit")) {
+          handleLoaded();
+        } else {
+          timeoutId = window.setTimeout(() => {
+            if (!window.customElements?.get("openai-chatkit")) {
+              handleError(
+                new CustomEvent("chatkit-script-error", {
+                  detail:
+                    "ChatKit web component is unavailable. Verify that the script URL is reachable.",
+                })
+              );
+            }
+          }, 10000); // Increased timeout to 10 seconds
         }
-      }, 5000);
+      };
+      
+      // Check immediately and then after a short delay
+      checkScript();
+      setTimeout(checkScript, 1000);
     }
 
     return () => {
@@ -159,13 +171,11 @@ export function ChatKitPanel({
 
   const getClientSecret = useCallback(
     async (currentSecret: string | null) => {
-      if (isDev) {
-        console.info("[ChatKitPanel] getClientSecret invoked", {
-          currentSecretPresent: Boolean(currentSecret),
-          workflowId: WORKFLOW_ID,
-          endpoint: CREATE_SESSION_ENDPOINT,
-        });
-      }
+      console.log("[ChatKitPanel] getClientSecret invoked", {
+        currentSecretPresent: Boolean(currentSecret),
+        workflowId: WORKFLOW_ID,
+        endpoint: CREATE_SESSION_ENDPOINT,
+      });
 
       if (!isWorkflowConfigured) {
         const detail =
@@ -185,6 +195,7 @@ export function ChatKitPanel({
       }
 
       try {
+        console.log("[ChatKitPanel] Creating session with workflow:", WORKFLOW_ID);
         const response = await fetch(CREATE_SESSION_ENDPOINT, {
           method: "POST",
           headers: {
@@ -200,6 +211,8 @@ export function ChatKitPanel({
             },
           }),
         });
+        
+        console.log("[ChatKitPanel] Session response status:", response.status);
 
         const raw = await response.text();
 
@@ -344,7 +357,7 @@ export function ChatKitPanel({
   }
 
   return (
-    <div className="relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden bg-white shadow-sm transition-colors dark:bg-slate-900">
+    <div className="relative flex flex-1 rounded-2xl flex-col overflow-hidden bg-transparent shadow-none transition-colors">
       <ChatKit
         key={widgetInstanceKey}
         control={chatkit.control}
@@ -359,7 +372,7 @@ export function ChatKitPanel({
         fallbackMessage={
           blockingError || !isInitializingSession
             ? null
-            : "Loading assistant session..."
+            : "Loading EZgenie assistant..."
         }
         onRetry={blockingError && errors.retryable ? handleResetChat : null}
         retryLabel="Restart chat"
