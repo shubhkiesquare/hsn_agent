@@ -83,3 +83,4 @@ Write-Host "====================================" -ForegroundColor Green
 Write-Host "`nApplication is running on: http://localhost:3003" -ForegroundColor Cyan
 Write-Host "Signin page: http://localhost:3003/auth/simple-signin" -ForegroundColor Cyan
 Write-Host "Signup page: http://localhost:3003/auth/signup" -ForegroundColor Cyan
+

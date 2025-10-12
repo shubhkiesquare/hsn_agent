@@ -69,3 +69,4 @@ try {
 Write-Host "`n=================================================" -ForegroundColor Green
 Write-Host "Authentication System Test Complete!" -ForegroundColor Green
 Write-Host "=================================================" -ForegroundColor Green
+
