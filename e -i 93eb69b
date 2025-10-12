@@ -1,0 +1,10 @@
+[33m7b20618[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Fix authentication system and ChatKit integration
+[33m7180a8e[m final
+[33m5758962[m Fix authentication and ChatKit integration
+[33m3d824a0[m Fix authentication flow and NextAuth integration
+[33m93eb69b[m[33m ([m[1;31morigin/main[m[33m)[m Add all changes after cloning
+[33meea0d69[m Update README.md
+[33meb8f8e9[m enable attachments
+[33me29bb21[m update theme
+[33m5df84c5[m update README
+[33m5481fe4[m Merge pull request #11 from openai/jiwon/use-1.0.0

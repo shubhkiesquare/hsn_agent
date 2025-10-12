@@ -1,6 +1,18 @@
-import { WORKFLOW_ID } from "@/lib/config";
+import { WORKFLOW_ID } from "../../../lib/config";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "../../../lib/auth";
+
+// Extend the Session type to include 'id' on user
+declare module "next-auth" {
+  interface Session {
+    user?: {
+      id?: string | null;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+}
 
 interface CreateSessionRequestBody {
   workflow?: { id?: string | null } | null;
