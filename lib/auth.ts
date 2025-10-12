@@ -68,6 +68,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  secret: "776ac261bf6a78f244791e5ce72a1c9ff07a10aecd9665aab7b4cf7690a70144",
+  debug: false,
 };

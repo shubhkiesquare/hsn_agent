@@ -21,9 +21,11 @@ export async function middleware(request: NextRequest) {
   }
   
   // Check for NextAuth session token
+  // Note: Middleware can't access process.env.NEXTAUTH_SECRET directly
+  // So we need to hardcode it or use a different approach
   const token = await getToken({ 
     req: request,
-    secret: process.env.NEXTAUTH_SECRET 
+    secret: "776ac261bf6a78f244791e5ce72a1c9ff07a10aecd9665aab7b4cf7690a70144"
   });
   
   // If no token and trying to access main app, redirect to signin
