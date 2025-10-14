@@ -52,25 +52,25 @@ export default function SimpleUserNav() {
           <div className="animate-pulse bg-gray-200 h-8 w-20 rounded"></div>
         </div>
       ) : !user ? (
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
           <Link
             href="/auth/simple-signin"
-            className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+            className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition-colors"
           >
             Sign In
           </Link>
           <Link
             href="/auth/signup"
-            className="bg-white text-blue-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium"
+            className="bg-white text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md text-sm font-semibold shadow-sm transition-colors"
           >
             Sign Up
           </Link>
         </div>
       ) : (
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-              <span className="text-blue-600 font-semibold text-sm">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
+            <span className="text-blue-700 font-semibold text-sm">
                 {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -83,12 +83,12 @@ export default function SimpleUserNav() {
               </div>
             </div>
           </div>
-          <button
-            onClick={handleSignOut}
-            className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium"
-          >
-            Sign Out
-          </button>
+        <button
+          onClick={handleSignOut}
+          className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition-colors"
+        >
+          Sign Out
+        </button>
         </div>
       )}
     </ClientOnly>

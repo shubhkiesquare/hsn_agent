@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import ClientOnly from './ClientOnly';
+import { HSNResultSkeleton, SearchInputSkeleton, InlineLoading } from './LoadingStates';
 
 interface HSNResult {
   code: string;
@@ -130,7 +131,13 @@ export default function HSNLookup() {
         </div>
       )}
 
-      {showResults && results.length > 0 && (
+      {loading && (
+        <div className="mt-4">
+          <HSNResultSkeleton />
+        </div>
+      )}
+
+      {showResults && results.length > 0 && !loading && (
         <div className="hsn-results">
           <div className="results-header">
             <h4>📋 Found {results.length} result(s) for &quot;{query}&quot;</h4>

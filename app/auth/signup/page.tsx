@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Mail, Lock, User, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+import AuthShell from "@/components/AuthShell";
 
 export default function SignUp() {
   const router = useRouter();
@@ -98,110 +99,39 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-[45%] bg-gradient-to-br from-[#0066cc] via-[#0052a3] to-[#003d7a] p-16 flex-col justify-between relative overflow-hidden">
-        {/* Decorative Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-white rounded-full translate-x-1/3 translate-y-1/3"></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/50 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-5 mb-16">
-            <img 
-              src="/images/ezgenie-logo.jpeg" 
-              alt="EZgenie" 
-              className="w-20 h-20 rounded-2xl shadow-2xl object-cover bg-white p-2"
-            />
-            <div>
-              <h1 className="text-white text-4xl font-bold tracking-tight">EZgenie</h1>
-              <p className="text-blue-100 text-base mt-1">इज़जीनी</p>
-            </div>
-          </div>
-          
-          <div className="max-w-lg space-y-8">
-            <div>
-              <h2 className="text-white text-5xl font-bold mb-6 leading-tight">
-                Join EZgenie Today
-              </h2>
-              <p className="text-blue-100 text-xl leading-relaxed mb-8">
-                Create your account and simplify HSN code classification
-              </p>
-            </div>
-            
-            {/* Benefits List */}
-            <div className="space-y-5">
-              {[
-                "AI-powered HSN classification",
-                "Save your favorite codes",
-                "Track search history",
-                "Export classification reports",
-                "24/7 access to tariff database"
-              ].map((benefit, index) => (
-                <div key={index} className="flex items-start gap-4">
-                  <CheckCircle2 className="h-7 w-7 text-green-300 flex-shrink-0 mt-0.5" />
-                  <span className="text-blue-100 text-lg">{benefit}</span>
-                </div>
-              ))}
-            </div>
+    <AuthShell
+      title="Create Account"
+      subtitle="Get started with your free account"
+      variant="signup"
+      footer={(
+        <div>
+          <p className="text-sm text-gray-600 mb-3 font-medium">Join 1,000+ customs professionals</p>
+          <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+            <span className="flex items-center gap-2">
+              <span className="text-lg">🔒</span>
+              Secure & Encrypted
+            </span>
+            <span className="text-gray-300">•</span>
+            <span className="flex items-center gap-2">
+              <span className="text-lg">✓</span>
+              Free Forever
+            </span>
           </div>
         </div>
-
-        {/* Footer Logos */}
-        <div className="relative z-10 flex items-center gap-6">
-          <img 
-            src="/images/cbic-logo.jpeg" 
-            alt="CBIC" 
-            className="w-16 h-16 rounded-xl object-contain bg-white p-2 shadow-xl"
-          />
-          <div className="text-white/90">
-            <p className="font-semibold text-base">Central Board of Indirect Taxes</p>
-            <p className="text-sm text-blue-100">& Customs</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-y-auto">
-        <div className="w-full max-w-[480px] py-8">
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center justify-center gap-4 mb-12">
-            <img 
-              src="/images/ezgenie-logo.jpeg" 
-              alt="EZgenie" 
-              className="w-16 h-16 rounded-xl shadow-lg object-cover"
-            />
-            <div>
-              <h1 className="text-[#0066cc] text-3xl font-bold">EZgenie</h1>
-              <p className="text-gray-600 text-sm">HSN Assistant</p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-200">
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">Create Account</h2>
-              <p className="text-gray-600 text-base">Get started with your free account</p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+      )}
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">
                   Full Name
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-400" />
-                  </div>
+                <div>
                   <input
                     id="name"
                     type="text"
                     required
-                    className="block w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 placeholder-gray-400 text-base shadow-sm hover:border-gray-400"
-                    placeholder="John Doe"
+                    className="block w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 text-base shadow-sm hover:border-gray-400"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -213,16 +143,12 @@ export default function SignUp() {
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
                   Email Address
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
+                <div>
                   <input
                     id="email"
                     type="email"
                     required
-                    className="block w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 placeholder-gray-400 text-base shadow-sm hover:border-gray-400"
-                    placeholder="you@example.com"
+                    className="block w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 text-base shadow-sm hover:border-gray-400"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -234,30 +160,15 @@ export default function SignUp() {
                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">
                   Password
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
+                <div>
                   <input
                     id="password"
-                    type={showPassword ? "text" : "password"}
+                    type="password"
                     required
-                    className="block w-full pl-12 pr-14 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 placeholder-gray-400 text-base shadow-sm hover:border-gray-400"
-                    placeholder="Create a strong password"
+                    className="block w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 text-base shadow-sm hover:border-gray-400"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-50 rounded-r-xl transition-colors"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    )}
-                  </button>
                 </div>
                 {/* Password Strength Indicator */}
                 {password && (
@@ -286,30 +197,15 @@ export default function SignUp() {
                 <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-3">
                   Confirm Password
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
+                <div>
                   <input
                     id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
+                    type="password"
                     required
-                    className="block w-full pl-12 pr-14 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 placeholder-gray-400 text-base shadow-sm hover:border-gray-400"
-                    placeholder="Confirm your password"
+                    className="block w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 text-base shadow-sm hover:border-gray-400"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-50 rounded-r-xl transition-colors"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    )}
-                  </button>
                 </div>
                 {confirmPassword && password !== confirmPassword && (
                   <p className="mt-2 text-sm text-red-600 font-medium">Passwords do not match</p>
@@ -391,25 +287,6 @@ export default function SignUp() {
                 </Link>
               </div>
             </form>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="mt-10 text-center">
-            <p className="text-sm text-gray-600 mb-3 font-medium">Join 1,000+ customs professionals</p>
-            <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
-              <span className="flex items-center gap-2">
-                <span className="text-lg">🔒</span>
-                Secure & Encrypted
-              </span>
-              <span className="text-gray-300">•</span>
-              <span className="flex items-center gap-2">
-                <span className="text-lg">✓</span>
-                Free Forever
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 }

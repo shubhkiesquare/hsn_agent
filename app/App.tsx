@@ -5,7 +5,8 @@ import { ChatKitPanel, type FactAction } from "@/components/ChatKitPanel";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HSNLookup from "@/components/HSNLookup";
 import ActionButtons from "@/components/ActionButtons";
-import SimpleUserNav from "@/components/SimpleUserNav";
+import UserNav from "@/components/UserNav";
+import Image from "next/image";
 
 export default function App() {
   const { scheme, setScheme } = useColorScheme();
@@ -33,17 +34,18 @@ export default function App() {
       <header className="ezgenie-header">
         <div className="ezgenie-header-content">
           <div className="ezgenie-logo-left">
-            <img 
-              src="/images/ezgenie-logo.jpeg" 
-              alt="EZgenie" 
-              className="ezgenie-logo"
-              style={{
-                width: '120px',
-                height: 'auto',
-                maxHeight: '50px',
-                objectFit: 'contain'
-              }}
-            />
+            <div style={{ position: 'relative', width: '120px', height: '50px' }}>
+              <Image 
+                src="/images/ezgenie-logo.jpeg" 
+                alt="EZgenie" 
+                fill
+                sizes="120px"
+                className="ezgenie-logo"
+                style={{ objectFit: 'contain' }}
+                priority
+                unoptimized
+              />
+            </div>
             <div className="ezgenie-site-title">
               <div>
                 <span>EZgenie (इज़जीनी)</span> 
@@ -57,17 +59,25 @@ export default function App() {
             </div>
           </div>
           <div className="ezgenie-header-right">
-            <img 
-              src="/images/cbic-logo.jpeg" 
-              alt="CBIC" 
-              className="cbic-logo"
-              style={{
-                width: '60px',
-                height: '60px',
-                objectFit: 'contain'
-              }}
-            />
-            <SimpleUserNav />
+            <button
+              onClick={() => setScheme(scheme === "light" ? "dark" : "light")}
+              title={scheme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+              className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition-colors"
+            >
+              {scheme === "light" ? "🌙 Dark" : "☀️ Light"}
+            </button>
+            <div style={{ position: 'relative', width: '60px', height: '60px' }}>
+              <Image 
+                src="/images/cbic-logo.jpeg" 
+                alt="CBIC" 
+                fill
+                sizes="60px"
+                className="cbic-logo"
+                style={{ objectFit: 'contain' }}
+                unoptimized
+              />
+            </div>
+            <UserNav />
           </div>
         </div>
       </header>
@@ -103,19 +113,19 @@ export default function App() {
       {/* Footer */}
       <footer className="ezgenie-footer">
         <div className="ezgenie-footer-content">
-          <img 
-            src="/images/dgic.jpeg" 
-            alt="NAV DG" 
-            className="nav-logo-footer"
-            style={{
-              width: '120px',
-              height: 'auto',
-              maxHeight: '60px',
-              objectFit: 'contain'
-            }}
-          />
-          <p style={{fontSize: '14px', color: '#e0e0e0'}}>© NAV, DG (Systems), CBIC, New Delhi</p>
-          <p style={{fontSize: '13px', color: '#b0b0b0'}}>HSN Classification System - Designed and Developed by αβΣ</p>
+          <div style={{ position: 'relative', width: '120px', height: '60px' }}>
+            <Image 
+              src="/images/dgic.jpeg" 
+              alt="NAV DG" 
+              fill
+              sizes="120px"
+              className="nav-logo-footer"
+              style={{ objectFit: 'contain' }}
+              unoptimized
+            />
+          </div>
+          <p className="ezgenie-footer-text">© NAV, DG (Systems), CBIC, New Delhi</p>
+          <p className="ezgenie-footer-subtext">HSN Classification System - Designed and Developed by αβΣ</p>
         </div>
       </footer>
     </>

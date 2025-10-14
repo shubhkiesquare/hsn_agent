@@ -58,12 +58,13 @@ body {
 
 /* EZgenie Header Styles */
 .ezgenie-header {
-  background-color: var(--ezgenie-primary);
+  background: linear-gradient(90deg, #003c8f 0%, var(--ezgenie-primary) 40%, #001e45 100%);
   color: white;
-  padding: 12px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 14px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   position: relative;
   z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .ezgenie-header-content {
@@ -147,9 +148,9 @@ body {
 
 /* EZgenie Footer */
 .ezgenie-footer {
-  background-color: var(--ezgenie-primary);
+  background: linear-gradient(180deg, var(--ezgenie-primary) 0%, #001e45 100%);
   color: white;
-  padding: 20px 0;
+  padding: 24px 0;
   margin-top: auto;
 }
 
@@ -254,7 +255,7 @@ body {
   flex: 1;
   background: var(--ezgenie-surface);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
   padding: 30px;
   min-height: fit-content;
   display: flex;
@@ -266,7 +267,7 @@ body {
 }
 
 .ezgenie-content-header h1 {
-  font-size: 22px;
+  font-size: 24px;
   color: var(--ezgenie-primary);
   margin-bottom: 8px;
   display: flex;
@@ -291,6 +292,26 @@ body {
   --chatkit-text-secondary: #666;
 }
 
+/* Subtle scrollbars for chat/results */
+.results-list::-webkit-scrollbar,
+.ezgenie-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+.results-list::-webkit-scrollbar-track,
+.ezgenie-sidebar::-webkit-scrollbar-track {
+  background: #f2f4f8;
+  border-radius: 8px;
+}
+.results-list::-webkit-scrollbar-thumb,
+.ezgenie-sidebar::-webkit-scrollbar-thumb {
+  background: #c9d6ea;
+  border-radius: 8px;
+}
+.results-list:hover::-webkit-scrollbar-thumb,
+.ezgenie-sidebar:hover::-webkit-scrollbar-thumb {
+  background: #a9bedf;
+}
+
 /* Enhanced message styling */
 .ezgenie-content-area .message {
   border-radius: 20px;
@@ -306,14 +327,14 @@ body {
   align-self: flex-end;
   background: linear-gradient(135deg, var(--ezgenie-secondary) 0%, #0044aa 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
 }
 
 .ezgenie-content-area .message.assistant {
   align-self: flex-start;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border: 1px solid #e9ecef;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* Input styling */
@@ -391,7 +412,7 @@ body {
 .action-btn.primary {
   background: linear-gradient(135deg, var(--ezgenie-secondary) 0%, #0044aa 100%);
   color: white;
-  box-shadow: 0 2px 4px rgba(0, 102, 204, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 102, 204, 0.18);
 }
 
 .action-btn.primary:hover {
@@ -457,6 +478,16 @@ body {
   color: white;
   border-color: var(--ezgenie-secondary);
   transform: translateY(-1px);
+}
+
+/* Footer text helpers */
+.ezgenie-footer-text {
+  font-size: 14px;
+  color: #e0e0e0;
+}
+.ezgenie-footer-subtext {
+  font-size: 13px;
+  color: #b0b0b0;
 }
 
 /* HSN Lookup Component Styles */

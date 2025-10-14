@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import AuthShell from "@/components/AuthShell";
 
 export default function SignIn() {
   const router = useRouter();
@@ -51,86 +52,28 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-[45%] bg-gradient-to-br from-[#0066cc] via-[#0052a3] to-[#003d7a] p-16 flex-col justify-between relative overflow-hidden">
-        {/* Decorative Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-white rounded-full translate-x-1/3 translate-y-1/3"></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/50 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-5 mb-16">
-            <img 
-              src="/images/ezgenie-logo.jpeg" 
-              alt="EZgenie" 
-              className="w-20 h-20 rounded-2xl shadow-2xl object-cover bg-white p-2"
-            />
-            <div>
-              <h1 className="text-white text-4xl font-bold tracking-tight">EZgenie</h1>
-              <p className="text-blue-100 text-base mt-1">इज़जीनी</p>
-            </div>
-          </div>
-          
-          <div className="max-w-lg space-y-8">
-            <div>
-              <h2 className="text-white text-5xl font-bold mb-6 leading-tight">
-                Welcome Back!
-              </h2>
-              <p className="text-blue-100 text-xl leading-relaxed">
-                Sign in to access your HSN classification assistant and streamline your customs processes.
-              </p>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-xl">
-              <p className="text-white font-semibold mb-3 text-lg">भारतीय सीमा शुल्क सहायक</p>
-              <p className="text-blue-100 leading-relaxed">
-                Indian Customs Import and Export Goods Classification Assistant
-              </p>
-            </div>
+    <AuthShell
+      title="Sign In"
+      subtitle="Enter your credentials to access your account"
+      variant="signin"
+      footer={(
+        <div>
+          <p className="text-sm text-gray-600 mb-3 font-medium">Trusted by customs professionals</p>
+          <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+            <span className="flex items-center gap-2">
+              <span className="text-lg">🔒</span>
+              Secure & Encrypted
+            </span>
+            <span className="text-gray-300">•</span>
+            <span className="flex items-center gap-2">
+              <span className="text-lg">✓</span>
+              CBIC Compliant
+            </span>
           </div>
         </div>
-
-        {/* Footer Logos */}
-        <div className="relative z-10 flex items-center gap-6">
-          <img 
-            src="/images/cbic-logo.jpeg" 
-            alt="CBIC" 
-            className="w-16 h-16 rounded-xl object-contain bg-white p-2 shadow-xl"
-          />
-          <div className="text-white/90">
-            <p className="font-semibold text-base">Central Board of Indirect Taxes</p>
-            <p className="text-sm text-blue-100">& Customs</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="w-full max-w-[480px]">
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center justify-center gap-4 mb-12">
-            <img 
-              src="/images/ezgenie-logo.jpeg" 
-              alt="EZgenie" 
-              className="w-16 h-16 rounded-xl shadow-lg object-cover"
-            />
-            <div>
-              <h1 className="text-[#0066cc] text-3xl font-bold">EZgenie</h1>
-              <p className="text-gray-600 text-sm">HSN Assistant</p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-200">
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">Sign In</h2>
-              <p className="text-gray-600 text-base">Enter your credentials to access your account</p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+      )}
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
               {/* Success Message */}
               {successMessage && (
                 <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-4">
@@ -143,16 +86,12 @@ export default function SignIn() {
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
                   Email Address
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
+                <div>
                   <input
                     id="email"
                     type="email"
                     required
-                    className="block w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 placeholder-gray-400 text-base shadow-sm hover:border-gray-400"
-                    placeholder="you@example.com"
+                    className="block w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 text-base shadow-sm hover:border-gray-400"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -164,30 +103,15 @@ export default function SignIn() {
                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">
                   Password
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
+                <div>
                   <input
                     id="password"
-                    type={showPassword ? "text" : "password"}
+                    type="password"
                     required
-                    className="block w-full pl-12 pr-14 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 placeholder-gray-400 text-base shadow-sm hover:border-gray-400"
-                    placeholder="Enter your password"
+                    className="block w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0066cc] focus:border-transparent transition-all text-gray-900 text-base shadow-sm hover:border-gray-400"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-50 rounded-r-xl transition-colors"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    )}
-                  </button>
                 </div>
               </div>
 
@@ -201,7 +125,7 @@ export default function SignIn() {
                   <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Remember me</span>
                 </label>
                 <Link
-                  href="#"
+                  href="/auth/forgot"
                   className="text-sm font-semibold text-[#0066cc] hover:text-[#0052a3] hover:underline transition-colors"
                 >
                   Forgot password?
@@ -255,25 +179,6 @@ export default function SignIn() {
                 </Link>
               </div>
             </form>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="mt-10 text-center">
-            <p className="text-sm text-gray-600 mb-3 font-medium">Trusted by customs professionals</p>
-            <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
-              <span className="flex items-center gap-2">
-                <span className="text-lg">🔒</span>
-                Secure & Encrypted
-              </span>
-              <span className="text-gray-300">•</span>
-              <span className="flex items-center gap-2">
-                <span className="text-lg">✓</span>
-                CBIC Compliant
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 }

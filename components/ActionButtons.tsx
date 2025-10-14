@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from 'react';
 import ClientOnly from './ClientOnly';
+import { LoadingButton, CardSkeleton } from './LoadingStates';
 
 interface ActionButtonsProps {
   onNewClassification?: () => void;
@@ -9,9 +11,16 @@ interface ActionButtonsProps {
 export default function ActionButtons({ 
   onNewClassification
 }: ActionButtonsProps) {
-  const handleNewClassification = () => {
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleNewClassification = async () => {
     if (onNewClassification) {
-      onNewClassification();
+      setIsProcessing(true);
+      try {
+        await onNewClassification();
+      } finally {
+        setIsProcessing(false);
+      }
     }
   };
 
@@ -19,22 +28,22 @@ export default function ActionButtons({
     <ClientOnly fallback={
       <div className="action-buttons-container">
         <div className="action-buttons-grid">
-          <div className="action-btn primary" style={{height: '40px', border: '1px solid #ccc', borderRadius: '4px', padding: '8px', textAlign: 'center'}}>
-            Loading...
-          </div>
+          <CardSkeleton />
         </div>
       </div>
     }>
       <div className="action-buttons-container">
         <div className="action-buttons-grid">
-          <button 
-            className="action-btn primary" 
+          <LoadingButton
+            loading={isProcessing}
+            loadingText="Starting..."
+            className="action-btn primary"
             onClick={handleNewClassification}
             title="Start new HSN classification"
           >
             <span className="action-icon">🔄</span>
             <span className="action-text">New Classification</span>
-          </button>
+          </LoadingButton>
         </div>
       </div>
     </ClientOnly>
