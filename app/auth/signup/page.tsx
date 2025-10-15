@@ -4,7 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import AuthShell from "@/components/AuthShell";
+// Update the path below if your AuthShell component is located elsewhere
+// Update the path below if your AuthShell component is located elsewhere
+// import AuthShell from "@components/AuthShell";
+import AuthShell from "../../../components/AuthShell";
+// If you get a module not found error, check the actual path and update accordingly, e.g.:
+// import AuthShell from "../../../components/AuthShell";
+// or
+// import AuthShell from "@/components/AuthShell";
 
 export default function SignUp() {
   const router = useRouter();

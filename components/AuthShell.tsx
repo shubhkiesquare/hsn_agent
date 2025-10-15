@@ -27,14 +27,13 @@ export default function AuthShell({ title, subtitle, children, footer, variant =
         {/* Content */}
         <div className="relative z-10">
           <div className="flex items-center gap-5 mb-16">
-            <div className="relative w-20 h-20 rounded-2xl shadow-2xl bg-white p-2">
+            <div className="relative w-20 h-20 rounded-2xl shadow-2xl bg-transparent p-2">
               <Image
                 src="/images/ezgenie-logo.jpeg"
                 alt="EZgenie"
-                fill
-                sizes="80px"
+                width={64}
+                height={64}
                 className="object-contain rounded-xl"
-                priority
                 unoptimized
               />
             </div>
@@ -82,13 +81,13 @@ export default function AuthShell({ title, subtitle, children, footer, variant =
 
         {/* Footer Logos */}
         <div className="relative z-10 flex items-center gap-6">
-          <div className="relative w-16 h-16 rounded-xl bg-white p-2 shadow-xl">
+          <div className="relative w-20 h-20 rounded-2xl shadow-2xl bg-transparent p-2">
             <Image
-              src="/images/cbic-logo.jpeg"
-              alt="CBIC"
-              fill
-              sizes="64px"
-              className="object-contain rounded-lg"
+              src="/images/ezgenie-logo.jpeg"
+              alt="EZgenie"
+              width={64}
+              height={64}
+              className="object-contain rounded-xl"
               unoptimized
             />
           </div>

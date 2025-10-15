@@ -19,9 +19,16 @@ export type FactAction = {
   factText: string;
 };
 
+export type HsnAction = {
+  type: "hsn";
+  hsnCode: string;
+  hsnDescription: string;
+};
+
 type ChatKitPanelProps = {
   theme: ColorScheme;
   onWidgetAction: (action: FactAction) => Promise<void>;
+  onHsnCapture: (action: HsnAction) => void;  // NEW!
   onResponseEnd: () => void;
   onThemeRequest: (scheme: ColorScheme) => void;
 };
@@ -46,6 +53,7 @@ const createInitialErrors = (): ErrorState => ({
 export function ChatKitPanel({
   theme,
   onWidgetAction,
+  onHsnCapture,  // NEW!
   onResponseEnd,
   onThemeRequest,
 }: ChatKitPanelProps) {
@@ -89,12 +97,13 @@ export function ChatKitPanel({
     };
 
     const handleError = (event: Event) => {
-      console.error("Failed to load chatkit.js for some reason", event);
+      console.error("Failed to load chatkit.js", event);
       if (!isMountedRef.current) {
         return;
       }
       setScriptStatus("error");
-      const detail = (event as CustomEvent<unknown>)?.detail ?? "unknown error";
+      const detail = (event as CustomEvent<unknown>)?.detail ??
+        (event instanceof Error ? event.message : "unknown error");
       setErrorState({ script: `Error: ${detail}`, retryable: false });
       setIsInitializingSession(false);
     };
@@ -108,7 +117,6 @@ export function ChatKitPanel({
     if (window.customElements?.get("openai-chatkit")) {
       handleLoaded();
     } else if (scriptStatus === "pending") {
-      // Check if script is already loaded
       const checkScript = () => {
         if (window.customElements?.get("openai-chatkit")) {
           handleLoaded();
@@ -117,16 +125,14 @@ export function ChatKitPanel({
             if (!window.customElements?.get("openai-chatkit")) {
               handleError(
                 new CustomEvent("chatkit-script-error", {
-                  detail:
-                    "ChatKit web component is unavailable. Verify that the script URL is reachable.",
+                  detail: "ChatKit web component is unavailable.",
                 })
               );
             }
-          }, 10000); // Increased timeout to 10 seconds
+          }, 10000);
         }
       };
       
-      // Check immediately and then after a short delay
       checkScript();
       setTimeout(checkScript, 1000);
     }
@@ -204,7 +210,6 @@ export function ChatKitPanel({
           body: JSON.stringify({
             workflow: { id: WORKFLOW_ID },
             chatkit_configuration: {
-              // enable attachments
               file_upload: {
                 enabled: true,
               },
@@ -287,7 +292,6 @@ export function ChatKitPanel({
     composer: {
       placeholder: PLACEHOLDER_INPUT,
       attachments: {
-        // Enable attachments
         enabled: true,
       },
     },
@@ -298,6 +302,8 @@ export function ChatKitPanel({
       name: string;
       params: Record<string, unknown>;
     }) => {
+      console.log("[ChatKitPanel] 🔧 Client tool invoked:", invocation.name, invocation.params);
+      
       if (invocation.name === "switch_theme") {
         const requested = invocation.params.theme;
         if (requested === "light" || requested === "dark") {
@@ -325,6 +331,30 @@ export function ChatKitPanel({
         return { success: true };
       }
 
+      // NEW: Handle record_hsn tool
+      if (invocation.name === "record_hsn") {
+        if (isDev) {
+          console.debug("[ChatKitPanel] record_hsn raw params", invocation.params);
+        }
+        const hsnCode = String(invocation.params.hsn_code ?? "");
+        const hsnDescription = String(invocation.params.hsn_description ?? "");
+        
+        console.log("[ChatKitPanel] ✅ HSN code captured via client tool:", hsnCode);
+        console.log("[ChatKitPanel] Description:", hsnDescription);
+        
+        if (hsnCode) {
+          onHsnCapture({
+            type: "hsn",
+            hsnCode: hsnCode.trim(),
+            hsnDescription: hsnDescription.trim(),
+          });
+          return { success: true };
+        }
+        
+        console.warn("[ChatKitPanel] record_hsn invoked without hsn_code");
+        return { success: false };
+      }
+
       return { success: false };
     },
     onResponseEnd: () => {
@@ -337,11 +367,26 @@ export function ChatKitPanel({
       processedFacts.current.clear();
     },
     onError: ({ error }: { error: unknown }) => {
-      // Note that Chatkit UI handles errors for your users.
-      // Thus, your app code doesn't need to display errors on UI.
       console.error("ChatKit error", error);
     },
   });
+
+  // Debug: expose control handle for inspection and log availability changes
+  useEffect(() => {
+    if (chatkit?.control) {
+      // @ts-expect-error expose for manual inspection during debugging
+      (window as any).__chatkitControl = chatkit.control;
+      if (isDev) {
+        console.debug("[ChatKitPanel] control available:", {
+          hasControl: Boolean(chatkit.control),
+          // shallow introspection to avoid circular structures
+          keys: Object.keys(chatkit.control ?? {}),
+        });
+      }
+    } else if (isDev) {
+      console.debug("[ChatKitPanel] control not available yet");
+    }
+  }, [chatkit?.control]);
 
   const activeError = errors.session ?? errors.integration;
   const blockingError = errors.script ?? activeError;
