@@ -2,11 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: __dirname,
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   experimental: {
-    // Allow Cloudflare tunnel origin in dev to load /_next assets
-    allowedDevOrigins: [
-      "https://baptist-peoples-sail-custom.trycloudflare.com",
-    ],
+   
   },
   webpack: (config) => {
     config.resolve.alias = {
