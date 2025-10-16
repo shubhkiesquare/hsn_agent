@@ -20,8 +20,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -35,22 +34,21 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String           @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String           @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  role          String    @default("user")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
+  role          String           @default("user")
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
   accounts      Account[]
-  sessions      Session[]
-  searchHistory SearchHistory[]
   favorites     Favorite[]
-  preferences   UserPreferences?
   feedback      HsnFeedback[]
+  searchHistory SearchHistory[]
+  sessions      Session[]
+  preferences   UserPreferences?
 }
 
 model VerificationToken {
@@ -67,8 +65,7 @@ model SearchHistory {
   query     String
   results   Json?
   createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -79,8 +76,7 @@ model Favorite {
   hsnCode     String
   description String
   createdAt   DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, hsnCode])
   @@index([userId])
@@ -92,8 +88,7 @@ model UserPreferences {
   theme         String @default("system")
   language      String @default("en")
   notifications Json?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model HsnFeedback {
@@ -106,8 +101,7 @@ model HsnFeedback {
   helpful     Boolean?
   comments    String?
   createdAt   DateTime @default(now())
-
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user        User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([hsnCode])
