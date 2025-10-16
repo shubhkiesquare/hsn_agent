@@ -763,3 +763,6 @@ body {
     text-align: center;
   }
 }
+
+@import '../components/FeedbackModal.css';
+@import '../components/HsnCounter.css';

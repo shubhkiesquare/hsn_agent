@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -48,13 +45,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts Account[]
-  sessions Session[]
-
-  // User-specific data
+  accounts      Account[]
+  sessions      Session[]
   searchHistory SearchHistory[]
   favorites     Favorite[]
   preferences   UserPreferences?
+  feedback      HsnFeedback[]
 }
 
 model VerificationToken {
@@ -91,11 +87,29 @@ model Favorite {
 }
 
 model UserPreferences {
-  id       String @id @default(cuid())
-  userId   String @unique
-  theme    String @default("system")
-  language String @default("en")
+  id            String @id @default(cuid())
+  userId        String @unique
+  theme         String @default("system")
+  language      String @default("en")
   notifications Json?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model HsnFeedback {
+  id          String   @id @default(cuid())
+  userId      String?
+  hsnCode     String
+  description String?
+  rating      Int
+  accuracy    String?
+  helpful     Boolean?
+  comments    String?
+  createdAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([hsnCode])
+  @@index([createdAt])
 }
